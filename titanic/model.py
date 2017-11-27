@@ -15,7 +15,8 @@ def svm(X_train, y_train):
 
     print("Training a SVM estimator")
 
-    for c in [3.3]:  # np.arange(3, 3.6, 0.01):
+    #for c in np.logspace(1, 2, num=20):
+    for c in np.arange(55, 65, 0.1):
         m = sksvm.SVC(C=c)
         s = skms.cross_val_score(m, X_train, y_train).mean()
 

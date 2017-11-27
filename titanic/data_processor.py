@@ -21,9 +21,11 @@ def process(train_file, test_file, age_bins, fare_bins, out_dir):
     #
 
     # Name
+    f = combined_data['Name'].map(lambda name: name.split(',')[0].split('.')[0].strip())
     t = combined_data['Name'].map(lambda name: name.split(',')[1].split('.')[0].strip())
+    family = pd.get_dummies(f, prefix='Family')
     titles = pd.get_dummies(t, prefix='Title')
-    combined_data = pd.concat([combined_data, titles], axis=1)
+    combined_data = pd.concat([combined_data, family, titles], axis=1)
     combined_data.drop('Name', 1, inplace=True)
 
     # Cabin
@@ -43,8 +45,6 @@ def process(train_file, test_file, age_bins, fare_bins, out_dir):
     t1 = combined_data['Ticket'].map(p1)
     ticket_letters = pd.get_dummies(t1, prefix='Ticket').drop('Ticket_EMPTY', axis=1)
     combined_data = pd.concat([combined_data, ticket_letters], axis=1)
-
-    # Ticket
     combined_data.drop('Ticket', 1, inplace=True)
 
     # Sex
